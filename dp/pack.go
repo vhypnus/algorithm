@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-var caches = make([]int,100,100)
+var caches = make([]int,200,200)
 
 func max(a, b int) int {
 	if a > b {
@@ -100,7 +100,7 @@ func main() {
 
 	
 	var now = time.Now().Unix()
-	fmt.Println(packM(values, capacitys, 60))
+	fmt.Println(packM(values, capacitys, 199))
 	fmt.Println(time.Now().Unix()-now)
 	// now = time.Now().Unix()
 	// fmt.Println(pack(values, capacitys, 25))
