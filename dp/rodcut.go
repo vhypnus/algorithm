@@ -2,9 +2,12 @@ package main
 
 // package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
-var caches = []int{0,0,2,5,5,7,10,10,12,15,15}
+var caches = make([]int,100,100)
 
 func max(a, b int) int {
 	if a > b {
@@ -17,21 +20,16 @@ func max(a, b int) int {
 
 
 func packM(values []int,capacitys []int,capacity int) int{
-	if values == nil || len(values) == 0 {
-		return 0
+	if caches[capacity] > 0  {
+		return caches[capacity]
 	}
 
 	var max int 
-
 	for i,v := range values {
 		var sum int
 		if capacitys[i] <= capacity {
-				
-			if capacity-capacitys[i] < len(caches)  {
-				sum = v + caches[capacity-capacitys[i]]
-			} else {
-				sum = v + pack(values,capacitys,capacity - capacitys[i])
-			}
+
+			sum = v + packM(values,capacitys,capacity - capacitys[i])
 		} else {
 			continue
 		}
@@ -39,9 +37,11 @@ func packM(values []int,capacitys []int,capacity int) int{
 		if sum > max {
 			max = sum
 		}
-		
 	}
 
+	if caches[capacity] == 0 {
+		caches[capacity] = max
+	}
 	return max ;
 }
 
@@ -73,26 +73,16 @@ func pack(values []int,capacitys []int,capacity int) int{
 
 
 func topDown(values []int,capacitys []int,capacity int) int{
+	if capacity < len(caches) {
+		return caches[capacity]
+	} 
 
 	var max int
-	for i:= capacity ; i > 0 ; i++ {
-		if caches[i] > 0 {
-			return caches[i]
-		}else {
-			for c,v := range caches {
-				if c > capacity {
-					break
-				}
-				var sum int 
-
-				sum = v + pack(values,capacitys,capacity - c) 
-
-				if sum > max {
-					max = sum
-				}
-			}
+	for i:= 0 ; i <= capacity ; i++ {
+		sum := topDown(values,capacitys,i) + topDown(values,capacitys,capacity - i)
+		if sum > max {
+			max = sum
 		}
-		 
 	}
 
 	return max
@@ -100,8 +90,8 @@ func topDown(values []int,capacitys []int,capacity int) int{
 
 
 func main() {
-	values := []int{2, 5, 3} //物品大小
-	capacitys := []int{2, 3, 4} //物品价值
+	values := []int{1,2, 5, 3} //物品大小
+	capacitys := []int{1,2, 3, 4} //物品价值
 	// goods := [][]int{
 	// 	[]int{7, 2},
 	// 	[]int{5, 3},
@@ -109,8 +99,11 @@ func main() {
 	// }
 
 	
-
+	var now = time.Now().Unix()
 	fmt.Println(packM(values, capacitys, 60))
-	fmt.Println(pack(values, capacitys, 60))
+	fmt.Println(time.Now().Unix()-now)
+	// now = time.Now().Unix()
+	// fmt.Println(pack(values, capacitys, 25))
+	// fmt.Println(time.Now().Unix()-now)
 	
 }
