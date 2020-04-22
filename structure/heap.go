@@ -19,7 +19,7 @@ func NewHeap(capacity int,type byte) *Heap{
 
 func (h *Heap) Push(v int) {
 	h.val = append(h.val,v)
-	//re order
+	//reorder
 }
 
 // func 
