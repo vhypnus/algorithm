@@ -5,9 +5,7 @@ import (
 )
 
 func main(){
-	var arr []interface{} = make([]interface{},0,8)
-	fmt.Println(arr)
-	fmt.Println(arr)
+	fmt.Println( 2 >> 1)
 }
 
 func test(v [3]int) {
