@@ -4,9 +4,7 @@ type Queue struct {
 
 	val []interface{}
 
-	start int
-
-	end int 
+	num int 
 }
 
 func NewQueue(capacity int) *Queue{
@@ -18,11 +16,17 @@ func NewQueue(capacity int) *Queue{
 
 func (q *Queue) Push(v interface{}) {
 	q.val = append(q.val,v)
+	q.num += 1
 }
 
 
 func (q *Queue) Pop() interface{} {
 	var  v = q.val[0]
 	q.val = q.val[1:len(q.val)]
+	q.num -= 1
 	return v 
+}
+
+func (q *Queue) Size() int {
+	return q.num
 }

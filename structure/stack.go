@@ -13,7 +13,6 @@ type Stack struct {
 
 func (s *Stack) Push(v int) {
 	if s.val == nil {
-		//性能较差，因为pop会导致内存copy
 		s.val = make([]int,0,8)
 	}
 	s.val = append(s.val,v)

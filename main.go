@@ -4,12 +4,21 @@ import (
 	"fmt"
 )
 
+const (
+
+	WHITE = iota
+	
+	GRAY 
+
+	BLACK
+
+)
+
 func main(){
-	fmt.Println( 2 >> 1)
-}
+	var s = make([]int,8,8)
 
-func test(v [3]int) {
-	v[0] =4
+	fmt.Println(&s)
 
-	fmt.Println(v)
+	s = append(s,1)
+	fmt.Println(&s)
 }
