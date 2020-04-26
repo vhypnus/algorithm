@@ -30,7 +30,8 @@ func (root *Trie) add(word string) {
 }
 
 func (root *Trie) find(word string) bool {
-	var r bool,p *Trie = true ,root
+	var r bool = true 
+	var p *Trie = root
 
 	for _,v := range word {
 		if p.children[v] == nil {
