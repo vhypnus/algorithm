@@ -4,21 +4,22 @@ import (
 	"fmt"
 )
 
-const (
+type Sample struct {
+	val int
+}
 
-	WHITE = iota
-	
-	GRAY 
+type Student struct {
 
-	BLACK
-
-)
+}
 
 func main(){
-	var s = make([]int,8,8)
+	var s1 = &Sample{17}
+	var s2 = &Sample{18}
+	var s3 = s2
 
-	fmt.Println(&s)
-
-	s = append(s,1)
-	fmt.Println(&s)
+	var m = make(map[*Sample]*Sample)
+	m[s1] = s1
+	m[s2] = s2
+	fmt.Println(s2 == s3)
+	fmt.Println(m[s3])
 }

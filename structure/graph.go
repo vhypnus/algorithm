@@ -6,22 +6,18 @@ package structure
 
 import (
 	// "fmt"
+	// "container/list"
 )
 
 type Vertex struct {
 
-	val int
+	val interface{}
 
 	//degree
 	d int
 
 }
 
-func NewVertex(val int) *Vertex{
-	var v = new (Vertex)
-	v.val = val
-	return v
-}
 
 
 type Edge struct {
@@ -34,17 +30,16 @@ type Edge struct {
 
 }
 
-// type Node struct {
+type Adj struct {
 
-// 	//head
-// 	h *Edge
+	//head
+	val *Edge
 
-// 	//tail
-// 	t *Edge
+	next *Adj
 
-// 	next *Node
 
-// }
+
+}
 
 
 type Graph struct {
@@ -55,7 +50,8 @@ type Graph struct {
 	//edge num
 	eno int
 
-	Adj map[*Vertex][]*Edge
+	// 临接矩阵
+	Adj map[*Vertex]*Adj
 }
 
 const (
@@ -68,9 +64,20 @@ const (
 
 )
 
+
+func NewVertex(val interface{}) *Vertex{
+	var v = &Vertex{val:val}
+	return v
+}
+
+func NewEdge(w int, s *Vertex,e *Vertex) *Edge {
+	var edge = &Edge{w,s,e}
+	return edge 
+}
+
 func NewGraph() *Graph {
 	var g = new(Graph)
-	g.Adj = make(map[*Vertex][]*Edge)
+	g.Adj = make(map[*Vertex]*Adj)
 	return g 
 }
 
@@ -79,45 +86,120 @@ func (g *Graph) AddVertex(s *Vertex) {
 		//panic 
 	}
 
-	g.Adj[s] = make([]*Edge,0,4)
-}
-
-
-func (g *Graph) AddEdge(w int, s *Vertex,e *Vertex) {
-
-	var edge = &Edge{w,s,e}
-
-	g.Adj[s] = append(g.Adj[s],edge)
-}
-
-
-func (g *Graph) Bfs(s Vertex){
-
-	// var m = make(map[Vertex]int)
-
-	// for k,_ := range g.adj {
-	// 	m[k] = WHITE
-	// }
-
-	// var q = NewQueue(32)
-	// q.Push(&s)
-
-	// for q.Size() > 0 {
-	// 	v := q.Pop()
-	// 	var adj = g.adj[*v]
-	// 	for _,v := range adj {
-	// 		if m[v] == WHITE {
-	// 			m[v] = GRAY
-	// 			q.Push(v.e)
-	// 		}	
-	// 	} 
-	// } 
-}
-
-func (g *Graph) Dfs(s Vertex){
+	g.Adj[s] = nil
 
 }
 
-func (g *Graph) TopSort(){
+
+func (g *Graph) AddEdge(edge *Edge) {
+
+	var s = edge.s
+
+	// head
+	var h = g.Adj[s]
+
+	if h == nil {
+		h = &Adj{val:edge}
+		g.Adj[s] = h
+	} else {
+		//parent
+		p := &Adj{val:edge}
+		p.next = h
+		g.Adj[s] = p 
+	}
+		
+}
+
+
+// FIFO
+func (g *Graph) Bfs(s *Vertex){
+
+	var m = make(map[*Vertex]byte)
+	for k,_ := range g.Adj {
+		m[k] = WHITE
+	}
+	// list or slice 
+	// list 空间比slice 大，但slice会有扩容成本
+	var q = make([]*Vertex,0,16)
+	m[s] = GRAY
+	q = append(q,s)
+
+	for len(q) > 0 {
+		v := q[0]
+		q = q[1:] 
+
+		adj := g.Adj[s]
+		for adj.val != nil {
+			if m[adj.val.s] == WHITE {
+				m[adj.val.e] = GRAY
+				q = append(q,adj.val.e)
+			}
+
+			//
+			adj = adj.next
+		}
+		m[v] = BLACK
+	}
+
+	
+}
+
+
+//1、FILO 栈 
+//2、递归
+func (g *Graph) Dfs(s *Vertex){
+	//  
+
+	var m = make(map[*Vertex]byte)
+	for k,_ := range g.Adj {
+		m[k] = WHITE
+	}
+
+	m[s] = GRAY
+	
+	for k,_ := range g.Adj {
+		g.dfsvisit(m,k)
+	}
+
+
 
 }
+
+func (g *Graph) dfsvisit(m map[*Vertex]byte,v *Vertex)	{
+
+	head := g.Adj[v]
+	for head != nil  {
+		if m[head.val.e] == WHITE {
+			m[head.val.e] = GRAY
+			g.dfsvisit(m, head.val.e)
+		}
+
+		head = head.next
+	}
+}	
+
+
+
+func (g *Graph) TopolgicalSort() {
+
+
+}
+
+
+func (g *Graph) MST(){
+
+}
+
+
+//Strongly connected components
+func (g *Graph) SCC() bool{
+
+	return false
+}
+
+func (g *Graph) Tarjan() int {
+
+	return 0
+}
+
+
