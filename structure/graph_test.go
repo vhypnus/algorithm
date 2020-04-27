@@ -16,9 +16,9 @@ import (
 */
 
 func TestAddVertex(t *testing.T) {
-	var v1 = NewVertex(1)
+	var v1 = NewVertex("s")
 
-	var v2 = NewVertex(2)
+	var v2 = NewVertex("r")
 
 	var edge = NewEdge(3,v1,v2)
 
@@ -40,4 +40,8 @@ func TestAddVertex(t *testing.T) {
 	// 	}
 		
 	// }
+}
+
+func TestBfs(t *testing.T) {
+	
 }
