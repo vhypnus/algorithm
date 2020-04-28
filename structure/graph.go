@@ -5,35 +5,18 @@
 package structure
 
 import (
-	// "fmt"
+	"fmt"
 	// "container/list"
 )
 
-type Vertex struct {
-
-	val interface{}
-
-	//degree
-	d int
-
-}
-
-
-
-type Edge struct {
-
-	w int
-
-	s *Vertex
-
-	e *Vertex
-
-}
 
 type Adj struct {
 
-	//head
-	val *Edge
+	// weight
+	w int
+
+	//endpoint
+	e interface{}
 
 	next *Adj
 
@@ -45,13 +28,13 @@ type Adj struct {
 type Graph struct {
 
 	//vertex num
-	vnum int 
+	vno int 
 
 	//edge num
 	eno int
 
 	// 临接矩阵
-	Adj map[*Vertex]*Adj
+	Adj map[interface{}]*Adj
 }
 
 const (
@@ -64,82 +47,86 @@ const (
 
 )
 
-
-func NewVertex(val interface{}) *Vertex{
-	var v = &Vertex{val:val}
-	return v
-}
-
-func NewEdge(w int, s *Vertex,e *Vertex) *Edge {
-	var edge = &Edge{w,s,e}
-	return edge 
-}
-
 func NewGraph() *Graph {
 	var g = new(Graph)
-	g.Adj = make(map[*Vertex]*Adj)
+	g.Adj = make(map[interface {}]*Adj)
 	return g 
 }
 
-func (g *Graph) AddVertex(s *Vertex) {
-	if g.Adj[s] != nil {
-		//panic 
+// val values ,not pointers
+// case number or string
+func (g *Graph) AddVertex(v interface{}) {
+
+	 switch t := v.(type) {
+	 	case int,string :
+	 		//
+
+	 	default:
+	 		//panic
+	 		fmt.Println(t)
+	 		panic("type error")
+
+	 }
+
+	if g.Adj[v] != nil {
+		panic("already exists.")
 	}
 
-	g.Adj[s] = nil
+	g.Adj[v] = &Adj{}
+	g.vno++
 
 }
 
+func (g *Graph) AddEdge(w int, s interface{},e interface{}) {
 
-func (g *Graph) AddEdge(edge *Edge) {
-
-	var s = edge.s
-
-	// head
-	var h = g.Adj[s]
-
-	if h == nil {
-		h = &Adj{val:edge}
-		g.Adj[s] = h
-	} else {
-		//parent
-		p := &Adj{val:edge}
-		p.next = h
-		g.Adj[s] = p 
+	if g.Adj[e] == nil {
+		g.Adj[e] = &Adj{}
 	}
-		
+
+	if g.Adj[s] == nil {
+		g.Adj[s] = &Adj{w:w,e:e}
+	} else {
+		g.Adj[s] = &Adj{w:w,e:e,next:g.Adj[s]}
+	}
+
+	g.eno++
 }
 
 
 // FIFO
-func (g *Graph) Bfs(s *Vertex){
+func (g *Graph) Bfs(s interface{}){
 
-	var m = make(map[*Vertex]byte)
+	var m = make(map[interface{}]byte)
 	for k,_ := range g.Adj {
 		m[k] = WHITE
 	}
 	// list or slice 
 	// list 空间比slice 大，但slice会有扩容成本
-	var q = make([]*Vertex,0,16)
+	var q = make([]interface{},0,16)
 	m[s] = GRAY
 	q = append(q,s)
 
 	for len(q) > 0 {
+		// fmt.Println(q)
 		v := q[0]
+		fmt.Printf("%v --> ",v)
 		q = q[1:] 
 
-		adj := g.Adj[s]
-		for adj.val != nil {
-			if m[adj.val.s] == WHITE {
-				m[adj.val.e] = GRAY
-				q = append(q,adj.val.e)
+		adj := g.Adj[v]
+		for adj != nil && adj.e != nil {
+			if m[adj.e] == WHITE {
+				m[adj.e] = GRAY
+				q = append(q,adj.e)
 			}
 
 			//
 			adj = adj.next
 		}
 		m[v] = BLACK
+
 	}
+
+	fmt.Println()
 
 	
 }
@@ -147,34 +134,41 @@ func (g *Graph) Bfs(s *Vertex){
 
 //1、FILO 栈 
 //2、递归
-func (g *Graph) Dfs(s *Vertex){
+func (g *Graph) Dfs(s interface{}){
 	//  
 
-	var m = make(map[*Vertex]byte)
+	var m = make(map[interface{}]byte)
 	for k,_ := range g.Adj {
 		m[k] = WHITE
 	}
-
-	m[s] = GRAY
 	
-	for k,_ := range g.Adj {
-		g.dfsvisit(m,k)
+	for v,_ := range g.Adj {
+		
+		if m[v] == WHITE {
+			fmt.Printf("%v --> ",v)	
+			g.dfsvisit(m,v)	
+		}
+		
 	}
 
 
 
 }
 
-func (g *Graph) dfsvisit(m map[*Vertex]byte,v *Vertex)	{
+func (g *Graph) dfsvisit(m map[interface{}]byte,s interface{})	{
 
-	head := g.Adj[v]
-	for head != nil  {
-		if m[head.val.e] == WHITE {
-			m[head.val.e] = GRAY
-			g.dfsvisit(m, head.val.e)
+	h := g.Adj[s]
+	m[s] = GRAY
+	for h != nil && h.e != nil  {
+		
+		if m[h.e] == WHITE {
+			fmt.Printf("%v --> ",h.e)
+			g.dfsvisit(m, h.e)	
 		}
+		h = h.next
 
-		head = head.next
+		
+
 	}
 }	
 
