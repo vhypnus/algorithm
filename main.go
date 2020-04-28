@@ -13,12 +13,20 @@ func main(){
 	var m = make(map[interface{}]Sample)
 
 	m[1] = Sample{}
+	fmt.Println(len(m))
+	_ = func (s string) {
+		fmt.Println(s)
+	}
+
+	// fmt.Prin
+	test(nil)
 } 
 
 
-func test(v interface{}) {
-	var  s = v.(Sample)
-	s.val = 20
+func test(callback func(s string)) {
 
-	fmt.Println(s)
+	if callback != nil {
+		callback("hello")	
+	}
+	
 }

@@ -99,5 +99,5 @@ func TestBfs(t *testing.T) {
 
 func TestDfs(t *testing.T) {
 	var g = initGraph()
-	g.Dfs("s")
+	g.Dfs()
 }

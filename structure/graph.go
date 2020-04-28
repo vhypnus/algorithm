@@ -134,7 +134,7 @@ func (g *Graph) Bfs(s interface{}){
 
 //1、FILO 栈 
 //2、递归
-func (g *Graph) Dfs(s interface{}){
+func (g *Graph) Dfs(){
 	//  
 
 	var m = make(map[interface{}]byte)
@@ -186,9 +186,17 @@ func (g *Graph) MST(){
 
 
 //Strongly connected components
-func (g *Graph) SCC() bool{
+func (g *Graph) SCC() {
 
-	return false
+	// var s = len(g.Adj)
+	// //dsf num
+	// var dfsn,low = make(map[interface]int,s),make([]int,0,s)
+
+	// for v,adj := range g.Adj {
+
+	// }
+
+
 }
 
 func (g *Graph) Tarjan() int {
