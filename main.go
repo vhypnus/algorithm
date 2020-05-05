@@ -10,16 +10,16 @@ type Sample struct {
 
 
 func main(){
-	var m = make(map[interface{}]Sample)
+	var s = "你好世界hellworld"
+	fmt.Println(len(s))
 
-	m[1] = Sample{}
-	fmt.Println(len(m))
-	_ = func (s string) {
-		fmt.Println(s)
+	for _,v := range s {
+		fmt.Println(string(v))
 	}
 
-	// fmt.Prin
-	test(nil)
+	for _,v := range []byte(s) {
+		fmt.Println(string(v))
+	}
 } 
 
 

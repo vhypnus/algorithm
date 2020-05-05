@@ -96,6 +96,7 @@ func (g *Graph) AddEdge(w int, s interface{},e interface{}) {
 // FIFO
 func (g *Graph) Bfs(s interface{}){
 
+
 	var m = make(map[interface{}]byte)
 	for k,_ := range g.Adj {
 		m[k] = WHITE
@@ -159,6 +160,7 @@ func (g *Graph) dfsvisit(m map[interface{}]byte,s interface{})	{
 
 	h := g.Adj[s]
 	m[s] = GRAY
+	
 	for h != nil && h.e != nil  {
 		
 		if m[h.e] == WHITE {
@@ -200,7 +202,7 @@ func (g *Graph) SCC() {
 }
 
 func (g *Graph) Tarjan() int {
-
+	
 	return 0
 }
 
