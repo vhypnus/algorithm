@@ -136,10 +136,16 @@ func middle(max ,s ,e int) int{
 
 
 func Quicksort(ar []int,s,e int) {
+	if s >= e {
+		return 
+	}
+	var j = Partition(ar,s,e)
+	Quicksort(ar,s,j-1)
+	Quicksort(ar,j+1,e)
 
 }
 
-func Partition(ar []int,s,e int) {
+func Partition(ar []int,s,e int) int{
 	var j int = s
 
 	var pivot = ar[e]
@@ -151,6 +157,7 @@ func Partition(ar []int,s,e int) {
 	}
 
 	Swap(ar,j,e)
+	return j
 }
 
 func Swap(ar []int,i,j int) {
@@ -158,3 +165,42 @@ func Swap(ar []int,i,j int) {
 	ar[i] = ar[j]
 	ar[j] = temp
 }
+
+
+func Heapsort(ar []int) {
+	MaxHeap(ar)
+
+	n := len(ar)
+	for i := n - 1 ;i >= 0 ;i -- {
+		Swap(ar,0,i)
+		maxHeapify(ar[0:i],0)	
+	}
+}
+
+
+func MaxHeap(ar []int) {
+	l := len(ar)-1
+	for i := l/2 ; i >=0 ; i-- {
+		maxHeapify(ar,i)
+	}
+}
+
+func maxHeapify(ar []int,i int) {
+	n,p,l,r := len(ar),i ,2*i,2*i+1
+
+	log.Printf("p l r %v %v %v",p,l,r)
+	if l < n && ar[l] > ar[p]{
+		p = l
+	}
+
+	if r < n && ar[r] > ar[p] {
+		p = r
+	}
+
+	if p != i {
+		Swap(ar,i,p)
+		maxHeapify(ar,p)
+	}
+	// log.Print(ar)
+}
+

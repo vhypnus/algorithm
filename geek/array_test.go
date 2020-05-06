@@ -52,3 +52,34 @@ func TestSwap(t *testing.T) {
 	Swap(ar,2,4)
 	log.Print(ar)
 }
+
+func TestPartition(t *testing.T) {
+	var ar = []int{ 2,1, 5,3,8,9,10, 15,11, 6, 7}
+	Partition(ar,0,10)
+	log.Print(ar)
+}
+
+func TestQuicksort(t *testing.T ){
+	var ar = []int{ 2,1, 5,3,8,9,10, 15,11, 6, 7}
+	Quicksort(ar,0,10)
+	log.Print(ar)
+}
+
+func TestMaxHeap(t *testing.T) {
+	var ar = []int{ 2,1, 5,3,8,9,10, 15,11, 6, 7}
+	MaxHeap(ar)
+	log.Print(ar)
+}
+
+func TestMaxHeapify(t *testing.T) {
+	var ar = []int{ 2,1, 5,3,8,9,10, 15,11, 6, 7}
+	// log.Print(ar)
+	maxHeapify(ar,4)
+	
+}
+
+func TestHeapsort(t *testing.T) {
+	var ar = []int{ 2,1, 5,3,8,9,10, 15,11, 6, 7}
+	Heapsort(ar)
+	log.Print(ar)
+}
