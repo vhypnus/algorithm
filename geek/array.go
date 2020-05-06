@@ -7,7 +7,7 @@ import(
  * https://www.geeksforgeeks.org/array-rotation/
  * l 奇偶不同
  */
-func rotation(ar[]int,d int) {
+func Rotation(ar[]int,d int) {
 
  	var l = len(ar)
  	d = d % l
@@ -43,7 +43,7 @@ func gcd(a int ,b int) int{
 }
 
 
-func largestIndex(ar []int ,s,e int) int {
+func Largest(ar []int ,s,e int) int {
 	log.Printf("s e %v %v",s,e)
 	if s > e {
 		// 
@@ -69,15 +69,15 @@ func largestIndex(ar []int ,s,e int) int {
 	}
 
 	if ar[middle] > ar[e] {	
-		return largestIndex(ar,middle+1,e)
+		return Largest(ar,middle+1,e)
 	} else{
-		return largestIndex(ar,s,middle-1)
+		return Largest(ar,s,middle-1)
 	}
 }
 
 
 
-func binary_search(ar []int,v,s ,e  int) int{
+func Binary_search(ar []int,v,s ,e  int) int{
 	var max = len(ar)-1
 	var middle = middle(max,s,e)
 
@@ -93,7 +93,7 @@ func binary_search(ar []int,v,s ,e  int) int{
 	}
 
 	log.Printf("s e   middle  %v %v %v" ,s,e,middle)
-	return binary_search(ar,v,s,e)
+	return Binary_search(ar,v,s,e)
 	// return -1
 
 }
@@ -132,4 +132,29 @@ func middle(max ,s ,e int) int{
 	}
 	log.Printf("middle %v",m)
 	return m
+}
+
+
+func Quicksort(ar []int,s,e int) {
+
+}
+
+func Partition(ar []int,s,e int) {
+	var j int = s
+
+	var pivot = ar[e]
+	for k := s ;k < e ; k++ {
+		if ar[k] < pivot {
+			Swap(ar,j,k)
+			j = j+1
+		} 
+	}
+
+	Swap(ar,j,e)
+}
+
+func Swap(ar []int,i,j int) {
+	temp := ar[i]
+	ar[i] = ar[j]
+	ar[j] = temp
 }
