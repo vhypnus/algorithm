@@ -5,6 +5,8 @@ type Queue struct {
 	val []interface{}
 
 	num int 
+
+	
 }
 
 func NewQueue(capacity int) *Queue{

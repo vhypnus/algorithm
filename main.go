@@ -4,22 +4,41 @@ import (
 	"fmt"
 )
 
+type Say interface {
+	Hello()
+}
+
+
+
 type Sample struct {
 	val int
 }
 
+func Hi(say Say) {
+	say.Hello()
+}
+
+func (s *Sample) Hello(){
+	fmt.Println("hello world")
+}
+
+type Parent struct {
+
+}
+
+func (p *Parent) Yes(){
+	fmt.Println("yes............")
+}
+
+type Child struct {
+	Parent
+}
+
 
 func main(){
-	var s = "你好世界hellworld"
-	fmt.Println(len(s))
+	var p Parent = Parent(&Child{})
+	c.Yes()
 
-	for _,v := range s {
-		fmt.Println(string(v))
-	}
-
-	for _,v := range []byte(s) {
-		fmt.Println(string(v))
-	}
 } 
 
 
